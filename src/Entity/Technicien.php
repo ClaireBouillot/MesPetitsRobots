@@ -17,30 +17,36 @@ class Technicien
      * @ORM\Column(name="id_tech", type="integer")
      * @ORM\Id()
      */
-    public $idTech;
+    public $id;
 
     /**
      * @var string
      * @ORM\Column(name="prenom_tech", type="string")
      */
-    public $prenomTech;
+    public $prenom;
 
     /**
      * @var string
      * @ORM\Column(name="nom_tech", type="string")
      */
-    public $nomTech;
+    public $nom;
 
     /**
      * @var Robot:null
-     * @ORM\ManyToOne(targetEntity="App\Entity\Robot", fetch="EAGER")
+     * @ORM\ManyToOne(targetEntity="App\Entity\Robot", fetch="EAGER", inversedBy="listeTechsEntretien")
      * @ORM\JoinColumn(name="entretien_robot", referencedColumnName="id")
      */
     public $entretienRobot;
 
-    public function __construct($prenomTech, $nomTech, $entretienRobot){
-        $this->prenomTech = $prenomTech;
-        $this->nomTech = $nomTech;
+    /**
+     * Constructeur de la classe technicien
+     * @param $prenomTech Prénom du technicien
+     * @param $nomTech Nom du technicien
+     * @param $entretienRobot Identifiant du robot que ce technicien entretient
+     */
+    public function __construct($prenom, $nom, $entretienRobot){
+        $this->prenom = $prenom;
+        $this->nom = $nom;
         $this->entretienRobot = $entretienRobot;
     }
 }

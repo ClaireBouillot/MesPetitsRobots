@@ -19,33 +19,47 @@ class Labo
      * @ORM\Column(name="id_labo", type="integer")
      * @ORM\Id()
      */
-    public $idLabo;
+    public $id;
 
     /**
      * @var string
      * @ORM\Column(name="nom_labo", type="string")
      */
-    public $nomLabo;
+    public $nom;
 
     /**
      * @var string
      * @ORM\Column(name="type_labo", type="string")
      */
-    public $typeLabo;
+    public $type;
 
     // Inversion clé étrangère (liste des robots du laboratoire)
     /**
      * @var Collection
-     * @ORM\OneToMany(targetEntity=Robot::class, mappedBy="Labo")
+     * @ORM\OneToMany(targetEntity=Robot::class, mappedBy="idLabo")
      */
     public $listeRobot;
 
-    public function __construct($nomLabo, $typeLabo){
-        $this->nomLabo = $nomLabo;
-        $this->typeLabo = $typeLabo;
+    // Inversion clé étrangère (liste des échantillons du laboratoire)
+    /**
+     * @var Collection
+     * @ORM\OneToMany(targetEntity=Echantillon::class, mappedBy="idLabo")
+     */
+    public $listeEchantillon;
+
+    /**
+     * COnstructeur de la classe labo
+     * @param $nom nom du laboratoire
+     * @param $type type du laboratoire
+     */
+    public function __construct($nom, $type){
+        $this->nom = $nom;
+        $this->type = $type;
 
         // Inversion clé étrangère (liste des robots du laboratoire)
         $this->listeRobot = new ArrayCollection();
+        // Inversion clé étrangère (liste des echantillons du laboratoire)
+        $this->listeEchantillon = new ArrayCollection();
 
     }
 }

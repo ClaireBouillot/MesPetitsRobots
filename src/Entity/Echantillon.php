@@ -2,14 +2,12 @@
 
 namespace App\Entity;
 
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\ORM\Mapping\Entity;
 
 /**
  * @Entity
- * @ORM\Table(name="MesPetitsRobots")
+ * @ORM\Table(name="LesEchantillons")
  */
 class Echantillon
 {
@@ -19,23 +17,28 @@ class Echantillon
      * @ORM\Column(name="id_ech", type="integer")
      * @ORM\Id()
      */
-    public $idEch;
+    public $id;
 
     /**
      * @var string
      * @ORM\Column(name="type_ech", type="string")
      */
-    public $typeEch;
+    public $type;
 
     /**
      * @var Labo:null
-     * @ORM\ManyToOne(targetEntity="App\Entity\Labo", fetch="EAGER")
+     * @ORM\ManyToOne(targetEntity="App\Entity\Labo", fetch="EAGER", inversedBy="listeEchantillon")
      * @ORM\JoinColumn(name="id_labo", referencedColumnName="id_labo")
      */
-    public $idLabo;
+    public $labo;
 
-    public function __construct($typeEch, $idLabo){
-        $this->typeEch = $typeEch;
-        $this->idLabo = $idLabo;
+    /**
+     * Constructeur de la classe echantillon
+     * @param $type type d'échantillon
+     * @param $labo identifiant du laboratoire dans lequel est analysé l'échantillon
+     */
+    public function __construct($type, $labo){
+        $this->type = $type;
+        $this->labo = $labo;
     }
 }

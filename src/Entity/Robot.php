@@ -25,7 +25,7 @@ class Robot
      * @var string
      * @ORM\Column(name="nom_robot", type="string")
      */
-    public $nom_robot;
+    public $nom;
 
     /**
      * @var int
@@ -35,22 +35,28 @@ class Robot
 
     /**
      * @var Labo:null
-     * @ORM\ManyToOne(targetEntity="App\Entity\Labo", fetch="EAGER")
+     * @ORM\ManyToOne(targetEntity="App\Entity\Labo", fetch="EAGER", inversedBy="listeRobot")
      * @ORM\JoinColumn(name="id_labo", referencedColumnName="id_labo")
      */
-    public $idLabo;
+    public $labo;
 
     // Inversion clé étrangère (liste des techniciens qui entretiennent un robot)
     /**
      * @var Collection
-     * @ORM\OneToMany(targetEntity=Technicien::class, mappedBy="Robot")
+     * @ORM\OneToMany(targetEntity=Technicien::class, mappedBy="entretienRobot")
      */
     public $listeTechsEntretien;
 
-    public function __construct($nom_robot, $age, $idLabo){
-        $this->nom_robot = $nom_robot;
+    /**
+     * Constructeur de la classe Robot
+     * @param $nom Nom du robot
+     * @param $age Age du robot
+     * @param $labo Laboratoire dans lequel se trouve le robot
+     */
+    public function __construct($nom, $age, $labo){
+        $this->nom = $nom;
         $this->age = $age;
-        $this->idLabo = $idLabo;
+        $this->labo = $labo;
         // Inversion clé étrangère (liste des techniciens qui entretiennent un robot)
         $this->listeTechsEntretien = new ArrayCollection();
     }
