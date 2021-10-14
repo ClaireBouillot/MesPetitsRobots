@@ -6,8 +6,10 @@ use App\Entity\Echantillon;
 use App\Entity\Labo;
 use App\Entity\Robot;
 use App\Entity\Technicien;
+use App\Entity\Truc;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -63,4 +65,65 @@ class CentreDeRecherche extends AbstractController
         // Retourne le nombre de robots
         return new Response("il y a ".count($bddRobot)." robots dans mon centre de recherche.");
     }
+
+    /**
+     * Affichage de la liste des laboratoires
+     * @return Response
+     * @Route(path="/Labos", methods={"GET"})
+     */
+    public function afficheListeLabos(Request $request,EntityManagerInterface $entityManager){
+        $liste = $entityManager->getRepository(Labo::class)->findAll();
+        return $this->render('labos.json.twig',['liste'=>$liste]);
+    }
+
+    /**
+     * Ajout d'un technicien
+     * @return Response
+     * @Route(path="/Technicien/{idRobot}", methods={"POST"})
+     */
+    public function ajoutTechnicien(Request $request,EntityManagerInterface $entityManager, $idRobot){
+        $robotNew = $entityManager->getRepository(Robot::class)->find($idRobot);
+        $infoTech = json_decode($request->getContent());
+        $Tech = new Technicien($infoTech->nom,$infoTech->prenom,$robotNew);
+        $entityManager->persist($Tech);
+        $entityManager->flush();
+        return $this->render('tech.json.twig',['Technicien'=>$Tech]);
+    }
+
+    /**
+     * Affichage d'un technicien à partir de son id
+     * @return Response
+     * @Route(path="/Technicien/{id}", methods={"GET"})
+     */
+    public function afficheTechnicien(Request $request,EntityManagerInterface $entityManager, $id){
+        $tech = $entityManager->getRepository(Technicien::class)->find($id);
+        return $this->render('tech.json.twig',['Technicien'=>$tech]);
+    }
+
+    /**
+     * Modification d'un technicien à partir de son id
+     * @return Response
+     * @Route(path="/Technicien/{id}", methods={"PUT"})
+     */
+    public function modifTechnicien(Request $request,EntityManagerInterface $entityManager, $id){
+        $infoTech = json_decode($request->getContent());
+        $tech = $entityManager->getRepository(Technicien::class)->find($id);
+        $tech->nom = $infoTech->nom;
+        $tech->prenom = $infoTech->prenom;
+        $entityManager->flush();
+        return $this->render('tech.json.twig',['Technicien'=>$tech]);
+    }
+
+    /**
+     * Suppression d'un technicien à partir de son id
+     * @return Response
+     * @Route(path="/Technicien/{id}", methods={"DELETE"})
+     */
+    public function suppTechnicien(Request $request,EntityManagerInterface $entityManager, $id){
+        $tech = $entityManager->getRepository(Technicien::class)->find($id);
+        $entityManager->remove($tech);
+        $entityManager->flush();
+        return new Response("ok");
+    }
+
 }

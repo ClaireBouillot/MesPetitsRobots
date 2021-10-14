@@ -44,9 +44,9 @@ class Technicien
      * @param $nomTech Nom du technicien
      * @param $entretienRobot Identifiant du robot que ce technicien entretient
      */
-    public function __construct($prenom, $nom, $entretienRobot){
-        $this->prenom = $prenom;
+    public function __construct($nom, $prenom, $entretienRobot){
         $this->nom = $nom;
+        $this->prenom = $prenom;
         $this->entretienRobot = $entretienRobot;
     }
 }

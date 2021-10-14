@@ -36,19 +36,19 @@ class Labo
     // Inversion clé étrangère (liste des robots du laboratoire)
     /**
      * @var Collection
-     * @ORM\OneToMany(targetEntity=Robot::class, mappedBy="idLabo")
+     * @ORM\OneToMany(targetEntity=Robot::class, mappedBy="labo")
      */
     public $listeRobot;
 
     // Inversion clé étrangère (liste des échantillons du laboratoire)
     /**
      * @var Collection
-     * @ORM\OneToMany(targetEntity=Echantillon::class, mappedBy="idLabo")
+     * @ORM\OneToMany(targetEntity=Echantillon::class, mappedBy="labo")
      */
     public $listeEchantillon;
 
     /**
-     * COnstructeur de la classe labo
+     * Constructeur de la classe labo
      * @param $nom nom du laboratoire
      * @param $type type du laboratoire
      */

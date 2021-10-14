@@ -1,0 +1,12 @@
+{
+    "liste" : [
+        {% for labo in liste %}
+        {
+            "id":"{{ labo.id }}",
+            "nom": "{{ labo.nom }}",
+            "type": "{{ labo.type }}"
+        }
+        {% if not loop.last %},{% endif %}
+        {% endfor %}
+    ]
+}
